@@ -1,2 +1,12 @@
-#!bin/bash
-find . -type f -name "*.gif" -printf "%f\n"| rev | cut -d '.' -f2- | rev | LC_ALL=C sort -f
+#!/bin/bash
+
+shopt -s nullglob  # Allow expansion of patterns that match no files
+
+for file in **/*; do
+  [[ -f "$file" && ! -d "$file" ]] && filesize=$(stat -c "%s" "$file")  # Check for regular files and get size
+  [[ -n "$filesize" ]] && printf "%s\n" "$file"  # Print filename if size exists (not empty)
+done
+
+# Sort by size numerically, case-insensitively using LC_COLLATE
+sort -n -u --sort=locale LC_COLLATE=C <<< "${files[@]}"
+
