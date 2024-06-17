@@ -1,0 +1,2 @@
+#!/bin/bash
+print(''.join(line[0] for line in open('acrostic.txt').read().split('\n')) + '\n')
