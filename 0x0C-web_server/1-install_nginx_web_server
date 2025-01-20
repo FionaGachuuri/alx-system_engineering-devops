@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-# install and configure nginx on web-01
-# should return 'Hello World!' upon a GET request at the root
+# This script installs and configures Nginx to serve
+# 'Hello World!' at the root URL on port 80.
 
 apt-get -y update
-apt-get -insall nginx
+apt-get -install nginx
 ufw allow "NGINX HTTP"
 echo 'Hello World!' > /var/www/html/index.html
 service nginx restart
