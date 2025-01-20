@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# This script installs and configures Nginx to serve
+# The script installs and configures Nginx to serve
 # 'Hello World!' at the root URL on port 80.
 
 apt-get -y update
