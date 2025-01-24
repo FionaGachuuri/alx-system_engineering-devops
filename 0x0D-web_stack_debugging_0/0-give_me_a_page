@@ -10,3 +10,15 @@ docker ps
 # Step 4: Test if the page is correctly served
 curl 0:8080
 
+# Update package list and install Apache
+apt-get update
+apt-get install -y apache2
+
+# Create the HTML page that will display "Hello ALX"
+echo "Hello ALX" > /var/www/html/index.html
+
+# Start Apache in the foreground to keep the container running
+service apache2 start
+
+# Ensure Apache is running
+service apache2 status
