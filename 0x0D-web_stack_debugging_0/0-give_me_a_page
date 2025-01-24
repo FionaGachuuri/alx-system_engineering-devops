@@ -1,13 +1,3 @@
 #!/usr/bin/env bash
-# Connect to the container
-docker exec -it <container_id> /bin/bash
-
-# Install Apache if not already installed
-apt-get update && apt-get install -y apache2
-
-# Start the Apache service
+# debugging apache
 service apache2 start
-
-# Create the Hello ALX page
-echo "Hello ALX" > /var/www/html/index.html
-
