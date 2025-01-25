@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# Script to fix nginx server :)
+sed -i 's/listen [0-9]\+/listen 80/' /etc/nginx/sites-enabled/default
+service nginx stop
+service nginx start
