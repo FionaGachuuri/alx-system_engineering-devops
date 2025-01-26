@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# Script that configures a web server with custom settings
+
+# Install Nginx
+sudo apt-get update
+sudo apt-get -y install nginx
+
+# Add custom header to Nginx configuration
+HOSTNAME=$(hostname)
+string="\tadd_header X-Served-By \"$HOSTNAME\";"
+sudo sed -i "/http {/a $string" /etc/nginx/nginx.conf
+
+# Restart Nginx to apply changes
+sudo systemctl restart nginx
+
