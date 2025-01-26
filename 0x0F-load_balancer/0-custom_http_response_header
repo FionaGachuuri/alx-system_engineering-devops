@@ -7,9 +7,21 @@ sudo apt-get -y install nginx
 
 # Add custom header to Nginx configuration
 HOSTNAME=$(hostname)
-string="\tadd_header X-Served-By \"$HOSTNAME\";"
-sudo sed -i "/http {/a $string" /etc/nginx/nginx.conf
+string="    add_header X-Served-By \"$HOSTNAME\";"
 
-# Restart Nginx to apply changes
-sudo systemctl restart nginx
+# Check if the http block exists before adding the header
+if grep -q "http {" /etc/nginx/nginx.conf; then
+    sudo sed -i "/http {/a $string" /etc/nginx/nginx.conf
+else
+    echo "Error: 'http {' block not found in /etc/nginx/nginx.conf"
+    exit 1
+fi
 
+# Test Nginx configuration
+if sudo nginx -t; then
+    # Restart Nginx to apply changes
+    sudo systemctl restart nginx
+else
+    echo "Nginx configuration test failed. Please check the configuration."
+    exit 1
+fi
