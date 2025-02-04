@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# ensure Nginx is installed and running
-# restart Nginx
-cat /etc/nginx/sites.available/default > /etc/nginx/sites-enabled/default
+# This script ensures Nginx is installed, running, and configured properly.
+# Restart Nginx to apply changes 
+# Ensure the default Nginx configuration is properly linked
+sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 sudo systemctl restart nginx
