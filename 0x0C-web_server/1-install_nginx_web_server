@@ -2,8 +2,10 @@
 # The script installs and configures Nginx to serve
 # 'Hello World!' at the root URL on port 80.
 
-apt-get -y update
-apt-get -install nginx
-ufw allow "NGINX HTTP"
+sudo apt-get -y update
+sudo apt-get -install nginx
+sudo ufw allow "NGINX HTTP"
 echo 'Hello World!' > /var/www/html/index.html
-service nginx restart
+
+sudo nginx -t
+sudo service nginx restart
