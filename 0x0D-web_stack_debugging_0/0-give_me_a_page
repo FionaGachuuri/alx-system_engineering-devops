@@ -1,24 +1,12 @@
 #!/usr/bin/env bash
-# Step 1: Build the Docker image
-docker build -t apache-hello .
-
-# Step 2: Run the Docker container with port 8080 mapped to port 80
+# Run the Docker container with port 8080 mapped to port 80
+# Verify the Apache container is running
+# Test if the page is correctly served
 docker run -p 8080:80 -d apache-hello
-
-# Step 3: Verify the Apache container is running
 docker ps
-# Step 4: Test if the page is correctly served
 curl 0:8080
-
-# Update package list and install Apache
-apt-get update
-apt-get install -y apache2
-
-# Create the HTML page that will display "Hello ALX"
-echo "Hello ALX" > /var/www/html/index.html
-
-# Start Apache in the foreground to keep the container running
-service apache2 start
-
-# Ensure Apache is running
-service apache2 status
+sudo apt-get update -y
+sudo apt-get install -y apache2
+echo "Hello ALX" | sudo tee -a /var/www/html/index.html
+sudo service apache2 start
+sudo service apache2 status
