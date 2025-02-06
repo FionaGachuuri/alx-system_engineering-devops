@@ -2,6 +2,8 @@
 # Run the Docker container with port 8080 mapped to port 80
 # Verify the Apache container is running
 # Test if the page is correctly served
+# ensure apache root returns Hello ALX
+
 docker run -p 8080:80 -d apache-hello
 docker ps
 curl 0:8080
