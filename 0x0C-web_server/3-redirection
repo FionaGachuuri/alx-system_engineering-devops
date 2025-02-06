@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# redirection
+# perfoming a 301 moved permanently
+
+sudo apt update
+sudo apt install nginx
+sudo ufw allow "NGINX HTTP"
+echo 'Hello World!' > /var/www/html/index.html
+
+new_string="server_name _;\n\trewrite ^/redirect_me https://github.com/FionaGachuuri permanent;"
+sudo sed -i "s#server_name _;#$new_string#" /etc/nginx/sites-enabled/default
+
+sudo nginx -t
+sudo service nginx restart
