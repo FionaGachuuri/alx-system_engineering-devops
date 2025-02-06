@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# customized 404 page conatining Ceci n'est pas une page
+
+sudo apt update
+sudo apt install nginx
+sudo ufw allow "NGINX HTTP"
+echo 'Hello World!' > /var/www/html/index.html
+
+new_string="server_name _;\n\trewrite ^/redirect_me https://github.com/FionaGachuuri permanent;"
+sudo sed -i "s#server_name _;#$new_string#" /etc/nginx/sites-enabled/default
+
+echo "Ceci n'est pas une page" | sudo tee /var/www/html/not_found_404_page.html
+new_string="listen 80 default_server;\n\terror_page 404 /404.html;\n\tlocation = /404.html {\n\troot /var/www/html;\n\tinternal;\n\t}"
+sudo sed -i "s|listen 80 default_server;|$new_string|" /etc/nginx/sites-enabled/default
+
+sudo nginx -t
+sudo service nginx restart
