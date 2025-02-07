@@ -1,27 +1,28 @@
 #!/usr/bin/env bash
-# Script that configures a web server with custom settings
-
-# Install Nginx
+# Customize 404-error_page
+# Update Packages before performing installations
+# Install nginx
+# Create an index.html page
+# Perform  "moved permanently redirection" (301)
+# Create  404 Custom error page
+# Create an HTTP response header
+# Test configurations for syntax errors
+# Restart nginx
 sudo apt-get update
-sudo apt-get -y install nginx
+sudo apt-get install -y nginx
 
-# Add custom header to Nginx configuration
-HOSTNAME=$(hostname)
-string="    add_header X-Served-By \"$HOSTNAME\";"
+echo "Hello World!" | sudo tee /var/www/html/index.html
 
-# Check if the http block exists before adding the header
-if grep -q "http {" /etc/nginx/nginx.conf; then
-    sudo sed -i "/http {/a $string" /etc/nginx/nginx.conf
-else
-    echo "Error: 'http {' block not found in /etc/nginx/nginx.conf"
-    exit 1
-fi
+new_string="server_name _;\n\trewrite ^\/redirect_me https:\/\/github.com\/FionaGachuuri permanent;"
+sudo sed -i "s/server_name _;/$new_string/" /etc/nginx/sites-enabled/default
 
-# Test Nginx configuration
-if sudo nginx -t; then
-    # Restart Nginx to apply changes
-    sudo systemctl restart nginx
-else
-    echo "Nginx configuration test failed. Please check the configuration."
-    exit 1
-fi
+echo "Ceci n'est pas une page" | sudo tee /var/www/html/404.html
+new_string="listen 80 default_server;\n\terror_page 404 \/404.html;\n\tlocation = \/404.html {\n\t\troot \/var\/www\/html;\n\t\tinternal;\n\t}"
+
+sudo sed -i "s/listen 80 default_server;/$new_string/" /etc/nginx/sites-enabled/default
+
+sudo sed -i "/server_name _/a add_header X-Served-By $HOSTNAME;" /etc/nginx/sites-enabled/default
+
+sudo nginx -t
+
+sudo service nginx restart
