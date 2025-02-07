@@ -1,4 +1,6 @@
-#
+#!/usr/bin/env bash
+#script enabling packets forwarding for IPv4
+
 # /etc/sysctl.conf - Configuration file for setting system variables
 # See /etc/sysctl.d/ for additional system variables.
 # See sysctl.conf (5) for information.
