@@ -1,34 +1,32 @@
 #!/usr/bin/python3
 """
-This module retrieves and displays an employee's
-TODO list progress using a REST API
+Exports all employees' TODO list progress to a JSON file using a REST API.
 """
 
 import json
 import requests
-import sys
-
 
 if __name__ == '__main__':
-    url = "https://jsonplaceholder.typicode.com/users"
+    base_url = "https://jsonplaceholder.typicode.com"
 
-    response = requests.get(url)
-    users = response.json()
+    users = requests.get(f"{base_url}/users").json()
 
-    dictionary = {}
+    all_tasks = {}
+
     for user in users:
-        user_id = user.get('id')
-        username = user.get('username')
-        url = 'https://jsonplaceholder.typicode.com/users/{}'.format(user_id)
-        url = url + '/todos/'
-        response = requests.get(url)
-        tasks = response.json()
-        dictionary[user_id] = []
-        for task in tasks:
-            dictionary[user_id].append({
-                "task": task.get('title'),
-                "completed": task.get('completed'),
-                "username": username
-            })
-    with open('todo_all_employees.json', 'w') as file:
-        json.dump(dictionary, file)
+        user_id = user["id"]
+        username = user["username"]
+
+        todos = requests.get(f"{base_url}/todos?userId={user_id}").json()
+
+        all_tasks[user_id] = [
+            {"task": todo["title"],
+             "completed": todo["completed"], "username": username}
+            for todo in todos
+        ]
+
+    filename = "todo_all_employees.json"
+    with open(filename, "w") as file:
+        json.dump(all_tasks, file, indent=4)
+
+    print(f"Data exported to {filename}")
