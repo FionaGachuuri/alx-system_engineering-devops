@@ -8,12 +8,16 @@ import requests
 
 
 def count_words(subreddit, word_list, after=None, word_count={}):
-    """Recursively count occurrences of words in hot post titles of a subreddit."""
+    """
+    Recursively count occurrences of words
+    in hot post titles of a subreddit.
+    """
     url = f"https://www.reddit.com/r/{subreddit}/hot.json"
     headers = {"User-Agent": "MyRedditAPI/0.0.1"}
     params = {"limit": 100, "after": after}
 
-    response = requests.get(url, headers=headers, params=params, allow_redirects=False)
+    response = requests.get
+    (url, headers=headers, params=params, allow_redirects=False)
     if response.status_code != 200:
         return
 
@@ -27,7 +31,8 @@ def count_words(subreddit, word_list, after=None, word_count={}):
     for post in posts:
         title_words = post['data']['title'].lower().split()
         for word in word_list:
-            word_count[word] = word_count.get(word, 0) + title_words.count(word)
+            word_count[word] = word_count.get
+            (word, 0) + title_words.count(word)
 
     # Pagination handling
     after = data.get('after')
