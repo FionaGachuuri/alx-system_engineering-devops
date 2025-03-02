@@ -1,5 +1,6 @@
 Here is a link to my blog https://medium.com/@fionairuka/postmortem-when-insertion-sort-went-rogue-a-tale-of-segmentation-faults-and-mild-existential-9079533794cb
-equirements:
+
+Requirements:
 
 Issue Summary (that is often what executives will read) must contain:
 duration of the outage with start and end times (including timezone)
